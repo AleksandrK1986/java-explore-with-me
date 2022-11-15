@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
     <modules>
         <module>ewm-service</module>
-		<module>stats-service</module>
+		<module>stats-server</module>
 	</modules>
 
     <parent>
