@@ -79,7 +79,7 @@ public class PublicEventController {
             eventShortDto.setConfirmedRequests(requestService.getAmountConfirms(e.getId()));
             eventShortDtos.add(eventShortDto);
         }
-        statsService.setHits(request.getRequestURI(), request.getRemoteAddr());
+        //statsService.setHits(request.getRequestURI(), request.getRemoteAddr());
         log.info("Controller: return all events: {}", eventShortDtos);
         return eventShortDtos;
     }
@@ -89,7 +89,7 @@ public class PublicEventController {
         log.info("Controller: find event with eventId={}", eventId);
         EventDto eventDto = toEventDto(eventService.findById(eventId));
         eventDto.setConfirmedRequests(requestService.getAmountConfirms(eventId));
-        statsService.setHits(request.getRequestURI(), request.getRemoteAddr());
+        //statsService.setHits(request.getRequestURI(), request.getRemoteAddr());
         log.info("Controller: return event with eventId={}", eventDto);
         return eventDto;
     }
