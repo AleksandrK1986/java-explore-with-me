@@ -1,8 +1,8 @@
 version: '3.1'
 services:
-  stats:
-    build: stats
-    container_name: stats
+  stats-service:
+    build: stats-service
+    container_name: stats-service
     ports:
       - "9090:9090"
     depends_on:
@@ -12,14 +12,14 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=iamroot
 
-  ewm:
-    build: ewm
-    container_name: ewm
+  ewm-service:
+    build: ewm-service
+    container_name: ewm-service
     ports:
       - "8080:8080"
     depends_on:
       - ewm-db
-      - stats
+      - stats-service
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/postgres
       - POSTGRES_USER=postgres
