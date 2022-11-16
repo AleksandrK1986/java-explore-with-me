@@ -11,6 +11,7 @@ import ru.practicum.errors.exception.NotValidException;
 import ru.practicum.errors.exception.StateIsNotSupportException;
 
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
@@ -56,6 +57,17 @@ public class ErrorHandler {
                 Collections.emptyList(),
                 e.getMessage(), "",
                 HttpStatus.FORBIDDEN,
+                LocalDateTime.now());
+        return errorResponse;
+    }
+
+    @ExceptionHandler(value = SQLException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleDatabaseExceptions(SQLException e) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                Collections.emptyList(),
+                e.getMessage(), "",
+                HttpStatus.CONFLICT,
                 LocalDateTime.now());
         return errorResponse;
     }
