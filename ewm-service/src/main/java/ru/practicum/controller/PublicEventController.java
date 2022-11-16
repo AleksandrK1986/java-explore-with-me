@@ -13,7 +13,6 @@ import ru.practicum.service.EventService;
 import ru.practicum.service.RequestService;
 import ru.practicum.stats.StatsService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
@@ -55,8 +54,7 @@ public class PublicEventController {
                                           @RequestParam(required = false) Boolean onlyAvailable,
                                           @RequestParam(required = false) EventSort sort,
                                           @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
-                                          @Positive @RequestParam(defaultValue = "10") Integer size,
-                                          HttpServletRequest request) {
+                                          @Positive @RequestParam(defaultValue = "10") Integer size) {
         log.info("Controller: find all events with text={}, paid={}, rangeStar={}, rangeEnd={}, " +
                         "onlyAvailable={}, sort={}, from={}, siz={}, compilations: {}", text, categories, paid, rangeStart,
                 rangeEnd, onlyAvailable, sort, from, size);

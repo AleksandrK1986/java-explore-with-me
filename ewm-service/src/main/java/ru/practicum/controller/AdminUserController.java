@@ -38,7 +38,7 @@ public class AdminUserController {
     }
 
     @GetMapping
-    public List<UserDto> findUsers(@RequestParam(name = "ids", defaultValue = "0") long[] ids,
+    public List<UserDto> findUsers(@RequestParam(name = "ids") long[] ids,
                                    @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
                                    @Positive @RequestParam(name = "size", defaultValue = "100") Integer size) {
         List<User> users = service.findUsers(ids, from, size);
@@ -57,7 +57,7 @@ public class AdminUserController {
     }
 
     @PatchMapping("/{userId}")
-    public UserDto update(@RequestBody UserDto userDto, @PathVariable long userId) {
+    public UserDto update(@Valid @RequestBody UserDto userDto, @PathVariable long userId) {
         log.info("Update user with userId={}, body: {}", userId, userDto);
         return toUserDto(service.update(toUser(userDto), userId));
     }

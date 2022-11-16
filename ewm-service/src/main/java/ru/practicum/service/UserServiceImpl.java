@@ -39,12 +39,7 @@ public class UserServiceImpl implements UserService {
         } else {
             page = PageRequest.of(0, size, sortBy);
         }
-        if (ids[0] == 0) {
-            return userRepository.findAll(page).getContent();
-        } else {
-            return userRepository.findAllByIds(ids, page);
-        }
-
+        return userRepository.findAllByIds(ids, page);
     }
 
     @Override

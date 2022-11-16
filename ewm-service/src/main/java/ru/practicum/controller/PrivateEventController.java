@@ -2,7 +2,6 @@ package ru.practicum.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.model.event.Event;
 import ru.practicum.model.event.EventState;
@@ -28,7 +27,6 @@ import static ru.practicum.model.event.dto.EventMapper.*;
 import static ru.practicum.model.request.dto.RequestMapper.toParticipationRequestDto;
 
 @Slf4j
-@Validated
 @RestController
 @RequestMapping(path = "/users/{userId}/events")
 public class PrivateEventController {
