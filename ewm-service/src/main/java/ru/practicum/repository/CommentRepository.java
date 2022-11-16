@@ -17,6 +17,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findByEventIdAndStatus(long eventId, CommentStatus status, Pageable page);
 
-    @Query("FROM Comment WHERE text like :text")
+    @Query("SELECT c FROM Comment AS c WHERE c.text LIKE CONCAT('%',LOWER(:text),'%')")
     List<Comment> findCommentsByTextContainingIgnoreCase(String text, Pageable page);
 }

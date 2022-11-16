@@ -167,15 +167,15 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private Event checkAndGetEvent(long eventId) {
-        if (eventRepository.existsById(eventId)) {
+        if (!eventRepository.existsById(eventId)) {
             throw new NotValidException("Событие не найдено в хранилище");
         }
         return eventRepository.getReferenceById(eventId);
     }
 
     private Comment checkAndGetComment(long commentId) {
-        if (commentRepository.existsById(commentId)) {
-            throw new NotValidException("Комментарий не найдено в хранилище");
+        if (!commentRepository.existsById(commentId)) {
+            throw new NotValidException("Комментарий не найден в хранилище");
         }
         return commentRepository.getReferenceById(commentId);
     }
