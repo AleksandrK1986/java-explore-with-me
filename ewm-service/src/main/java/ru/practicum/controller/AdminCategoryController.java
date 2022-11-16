@@ -34,7 +34,7 @@ public class AdminCategoryController {
     }
 
     @PatchMapping
-    public CategoryDto update(@RequestBody CategoryDto categoryDto) {
+    public CategoryDto update(@Valid @RequestBody CategoryDto categoryDto) {
         log.info("Controller: update category {}", categoryDto);
         CategoryDto returnCategory = toCategoryDto(service.update(toCategory(categoryDto)));
         log.info("Controller: return updated category {}", returnCategory);

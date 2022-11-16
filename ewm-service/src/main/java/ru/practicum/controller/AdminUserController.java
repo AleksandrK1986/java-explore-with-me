@@ -38,7 +38,7 @@ public class AdminUserController {
     }
 
     @GetMapping
-    public List<UserDto> findUsers(@RequestParam(name = "ids", defaultValue = "0") int[] ids,
+    public List<UserDto> findUsers(@RequestParam(name = "ids", defaultValue = "0") long[] ids,
                                    @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
                                    @Positive @RequestParam(name = "size", defaultValue = "100") Integer size) {
         List<User> users = service.findUsers(ids, from, size);

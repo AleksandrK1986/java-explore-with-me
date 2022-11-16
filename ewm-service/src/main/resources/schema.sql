@@ -8,7 +8,7 @@ drop table if exists users cascade;
 CREATE TABLE IF NOT EXISTS users (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    email VARCHAR(50) NOT NULL,
     CONSTRAINT uq_user_email UNIQUE (email) );
 
 CREATE TABLE IF NOT EXISTS compilations (

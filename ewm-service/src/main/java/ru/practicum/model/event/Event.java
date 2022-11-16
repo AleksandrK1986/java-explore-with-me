@@ -11,6 +11,7 @@ import ru.practicum.model.category.Category;
 import ru.practicum.model.user.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @FilterDef(name = "paidFilter", parameters = @ParamDef(name = "paid", type = "boolean"))
@@ -40,12 +41,15 @@ public class Event {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @Size(min = 1, max = 255)
     @Column(name = "title", nullable = false)
     private String title;
 
+    @Size(min = 1, max = 1000)
     @Column(name = "annotation")
     private String annotation;
 
+    @Size(min = 1, max = 1000)
     @Column(name = "description")
     private String description;
 

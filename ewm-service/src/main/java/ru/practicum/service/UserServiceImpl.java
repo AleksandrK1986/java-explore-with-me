@@ -26,7 +26,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
-        checkUserEmail(user);
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new AlreadyExistException("Пользователь с электронной почтой существует");
         }
@@ -34,7 +33,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findUsers(int[] ids, int from, int size) {
+    public List<User> findUsers(long[] ids, int from, int size) {
         Sort sortBy = Sort.by(Sort.Direction.ASC, "id");
         Pageable page;
         if (from != 0) {
@@ -42,21 +41,12 @@ public class UserServiceImpl implements UserService {
         } else {
             page = PageRequest.of(0, size, sortBy);
         }
-        Page<User> users = userRepository.findAll(page);
-
         if (ids[0] == 0) {
-            return users.getContent();
+            return userRepository.findAll(page).getContent();
         } else {
-            List<User> userFromIds = new ArrayList<>();
-            for (int i : ids) {
-                for (User u : users) {
-                    if (u.getId() == i) {
-                        userFromIds.add(u);
-                    }
-                }
-            }
-            return userFromIds;
+            return userRepository.findAllByIds(ids, page);
         }
+
     }
 
     @Override
@@ -82,15 +72,6 @@ public class UserServiceImpl implements UserService {
     public void delete(long id) {
         checkUser(id);
         userRepository.delete(userRepository.getReferenceById(id));
-    }
-
-    private void checkUserEmail(User user) {
-        if (user.getEmail() == null) {
-            throw new NullPointerException("Передан пустой email");
-        }
-        if (!user.getEmail().contains("@") || !user.getEmail().contains(".")) {
-            throw new NullPointerException("Передан некорректный email");
-        }
     }
 
     private void checkUser(long userId) {

@@ -5,7 +5,7 @@ import ru.practicum.model.user.User;
 import java.util.List;
 
 public interface UserService {
-    List<User> findUsers(int[] ids, int from, int size);
+    List<User> findUsers(long[] ids, int from, int size);
 
     User create(User data);
 

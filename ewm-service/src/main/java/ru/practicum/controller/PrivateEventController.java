@@ -66,7 +66,7 @@ public class PrivateEventController {
     }
 
     @PatchMapping
-    public EventDto update(@RequestBody UpdateEventDto eventDto,
+    public EventDto update(@Valid @RequestBody UpdateEventDto eventDto,
                            @PathVariable(name = "userId") long userId) {
         log.info("Controller: update event with userId={}, updateEventDto: {}", userId, eventDto);
         Event event = toEvent(eventDto);

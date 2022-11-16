@@ -84,7 +84,7 @@ public class PublicEventController {
     }
 
     @GetMapping("/{eventId}")
-    public EventDto findEventById(@PathVariable Long eventId, HttpServletRequest request) {
+    public EventDto findEventById(@PathVariable Long eventId) {
         log.info("Controller: find event with eventId={}", eventId);
         EventDto eventDto = toEventDto(eventService.findById(eventId));
         eventDto.setConfirmedRequests(requestService.getAmountConfirms(eventId));

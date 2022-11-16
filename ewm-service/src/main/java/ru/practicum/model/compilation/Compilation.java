@@ -7,6 +7,7 @@ import lombok.Setter;
 import ru.practicum.model.event.Event;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @AllArgsConstructor
@@ -21,6 +22,7 @@ public class Compilation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Size(min = 1, max = 255)
     @Column(name = "title", nullable = false)
     private String title;
 

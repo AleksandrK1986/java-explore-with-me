@@ -3,6 +3,8 @@ package ru.practicum.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Getter
@@ -18,12 +20,18 @@ public class Hit {
     @Column(name = "id")
     private Long id;
 
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "app")
     private String app;
 
+    @NotNull
+    @Size(min = 1, max = 500)
     @Column(name = "uri")
     private String uri;
 
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "ip")
     private String ip;
 

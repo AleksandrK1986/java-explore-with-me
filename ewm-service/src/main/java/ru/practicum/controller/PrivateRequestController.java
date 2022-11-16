@@ -2,7 +2,6 @@ package ru.practicum.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.model.request.ParticipationRequest;
 import ru.practicum.model.request.dto.ParticipationRequestDto;
@@ -14,7 +13,6 @@ import java.util.List;
 import static ru.practicum.model.request.dto.RequestMapper.toParticipationRequestDto;
 
 @Slf4j
-@Validated
 @RestController
 @RequestMapping(path = "/users/{userId}/requests")
 public class PrivateRequestController {

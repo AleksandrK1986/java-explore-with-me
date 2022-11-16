@@ -30,7 +30,7 @@ public class EventMapper {
                 event.getRequestModeration(),
                 event.getParticipantLimit(),
                 location,
-                999,
+                0,
                 0
         );
     }
@@ -46,7 +46,7 @@ public class EventMapper {
                 event.getEventDate(),
                 userDto,
                 event.getPaid(),
-                999,
+                0,
                 0
         );
     }

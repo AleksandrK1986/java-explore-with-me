@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -15,8 +16,12 @@ import java.time.LocalDateTime;
 public class UpdateEventDto {
     private long eventId;
     private long categoryId;
+
+    @Size(min = 1, max = 255)
     private String title;
+    @Size(min = 1, max = 1000)
     private String annotation;
+    @Size(min = 1, max = 1000)
     private String description;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
