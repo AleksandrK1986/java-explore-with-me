@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.practicum.errors.exception.*;
 
-
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
@@ -60,6 +60,17 @@ public class ErrorHandler {
     @ExceptionHandler(value = AlreadyExistException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleDatabaseExceptions(AlreadyExistException e) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                Collections.emptyList(),
+                e.getMessage(), "",
+                HttpStatus.CONFLICT,
+                LocalDateTime.now());
+        return errorResponse;
+    }
+
+    @ExceptionHandler(value = SQLException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleDatabaseExceptions(SQLException e) {
         ErrorResponse errorResponse = new ErrorResponse(
                 Collections.emptyList(),
                 e.getMessage(), "",
