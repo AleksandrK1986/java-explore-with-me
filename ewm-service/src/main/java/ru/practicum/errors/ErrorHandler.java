@@ -5,13 +5,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.practicum.errors.exception.ForbiddenException;
-import ru.practicum.errors.exception.NotFoundException;
-import ru.practicum.errors.exception.NotValidException;
-import ru.practicum.errors.exception.StateIsNotSupportException;
+import ru.practicum.errors.exception.*;
 
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
@@ -61,9 +57,9 @@ public class ErrorHandler {
         return errorResponse;
     }
 
-    @ExceptionHandler(value = SQLException.class)
+    @ExceptionHandler(value = AlreadyExistException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleDatabaseExceptions(SQLException e) {
+    public ErrorResponse handleDatabaseExceptions(AlreadyExistException e) {
         ErrorResponse errorResponse = new ErrorResponse(
                 Collections.emptyList(),
                 e.getMessage(), "",
