@@ -87,10 +87,13 @@ public class PublicEventController {
     }
 
     @GetMapping("/{eventId}")
-    public EventDto findEventById(@PathVariable Long eventId) {
+    public EventDto findEventById(@PathVariable Long eventId, HttpServletRequest request) {
         log.info("Controller: find event with eventId={}", eventId);
         EventDto eventDto = toEventDto(eventService.findById(eventId));
         eventDto.setConfirmedRequests(requestService.getAmountConfirms(eventId));
+        Long views = statsService.getViews("/events/" + eventDto.getId());
+        eventDto.setViews(views);
+        statsService.setHits(request.getRequestURI(), request.getRemoteAddr());
         log.info("Controller: return event with eventId={}", eventDto);
         return eventDto;
     }

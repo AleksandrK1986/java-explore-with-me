@@ -11,6 +11,7 @@ import ru.practicum.model.event.dto.EventDto;
 import ru.practicum.service.CategoryService;
 import ru.practicum.service.EventService;
 import ru.practicum.service.RequestService;
+import ru.practicum.stats.StatsService;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -32,14 +33,17 @@ public class AdminEventController {
     private EventService eventService;
     private CategoryService categoryService;
     private RequestService requestService;
+    private StatsService statsService;
 
     @Autowired
     public AdminEventController(EventService eventService,
                                 CategoryService categoryService,
-                                RequestService requestService) {
+                                RequestService requestService,
+                                StatsService statsService) {
         this.eventService = eventService;
         this.categoryService = categoryService;
         this.requestService = requestService;
+        this.statsService = statsService;
     }
 
     @GetMapping
@@ -69,6 +73,8 @@ public class AdminEventController {
             EventDto eventDto = toEventDto(e);
             eventDto.setConfirmedRequests(requestService.getAmountConfirms(e.getId()));
             eventDtos.add(eventDto);
+            Long views = statsService.getViews("/events/" + eventDto.getId());
+            eventDto.setViews(views);
         }
         log.info("Controller: return events by admin with event: {}", eventDtos);
         return eventDtos;
@@ -84,6 +90,8 @@ public class AdminEventController {
         }
         EventDto returnEvent = toEventDto(eventService.updateAdmin(event));
         returnEvent.setConfirmedRequests(requestService.getAmountConfirms(returnEvent.getId()));
+        Long views = statsService.getViews("/events/" + returnEvent.getId());
+        returnEvent.setViews(views);
         log.info("Controller: return after admin updating event with event: {}", returnEvent);
         return returnEvent;
     }
@@ -93,6 +101,8 @@ public class AdminEventController {
         log.info("Controller: admin publish event with eventId={}", eventId);
         EventDto returnEvent = toEventDto(eventService.publish(eventId));
         returnEvent.setConfirmedRequests(requestService.getAmountConfirms(returnEvent.getId()));
+        Long views = statsService.getViews("/events/" + returnEvent.getId());
+        returnEvent.setViews(views);
         log.info("Controller: return after admin publishing event: {}", returnEvent);
         return returnEvent;
     }
@@ -102,6 +112,8 @@ public class AdminEventController {
         log.info("Controller: admin reject event with eventId={}", eventId);
         EventDto returnEvent = toEventDto(eventService.reject(eventId));
         returnEvent.setConfirmedRequests(requestService.getAmountConfirms(returnEvent.getId()));
+        Long views = statsService.getViews("/events/" + returnEvent.getId());
+        returnEvent.setViews(views);
         log.info("Controller: return after admin rejecting event: {}", returnEvent);
         return returnEvent;
     }

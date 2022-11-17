@@ -15,6 +15,7 @@ import ru.practicum.service.CategoryService;
 import ru.practicum.service.EventService;
 import ru.practicum.service.RequestService;
 import ru.practicum.service.UserService;
+import ru.practicum.stats.StatsService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -35,16 +36,19 @@ public class PrivateEventController {
     private CategoryService categoryService;
     private UserService userService;
     private RequestService requestService;
+    private StatsService statsService;
 
     @Autowired
     public PrivateEventController(EventService eventService,
                                   CategoryService categoryService,
                                   UserService userService,
-                                  RequestService requestService) {
+                                  RequestService requestService,
+                                  StatsService statsService) {
         this.eventService = eventService;
         this.categoryService = categoryService;
         this.userService = userService;
         this.requestService = requestService;
+        this.statsService = statsService;
     }
 
     @PostMapping
@@ -74,6 +78,8 @@ public class PrivateEventController {
         log.info("Controller: update event with userId={}, event: {}", userId, event);
         EventDto returnEvent = toEventDto(eventService.update(userId, event));
         returnEvent.setConfirmedRequests(requestService.getAmountConfirms(returnEvent.getId()));
+        Long views = statsService.getViews("/events/" + returnEvent.getId());
+        returnEvent.setViews(views);
         log.info("Controller: return after updating event with userId={}, event: {}", userId, returnEvent);
         return returnEvent;
     }
@@ -84,6 +90,8 @@ public class PrivateEventController {
         log.info("Controller: get event with userId={}, eventId={}", userId, eventId);
         EventDto returnEvent = toEventDto(eventService.findById(userId, eventId));
         returnEvent.setConfirmedRequests(requestService.getAmountConfirms(returnEvent.getId()));
+        Long views = statsService.getViews("/events/" + returnEvent.getId());
+        returnEvent.setViews(views);
         log.info("Controller: return after getting event with userId={}, event: {}", userId, returnEvent);
         return returnEvent;
     }
@@ -94,6 +102,8 @@ public class PrivateEventController {
         log.info("Controller: cancel event with userId={}, eventId={}", userId, eventId);
         EventDto returnEvent = toEventDto(eventService.cancel(userId, eventId));
         returnEvent.setConfirmedRequests(requestService.getAmountConfirms(returnEvent.getId()));
+        Long views = statsService.getViews("/events/" + returnEvent.getId());
+        returnEvent.setViews(views);
         log.info("Controller: return after canceling event with userId={}, event: {}", userId, returnEvent);
         return returnEvent;
     }
@@ -107,6 +117,8 @@ public class PrivateEventController {
         for (Event e : events) {
             EventShortDto eventShortDto = toEventShortDto(e);
             eventShortDto.setConfirmedRequests(requestService.getAmountConfirms(eventShortDto.getId()));
+            Long views = statsService.getViews("/events/" + eventShortDto.getId());
+            eventShortDto.setViews(views);
             eventShortDtos.add(eventShortDto);
         }
         log.info("Get all events with userId={}, from={}, size={}: {}", userId, from, size, eventShortDtos);
