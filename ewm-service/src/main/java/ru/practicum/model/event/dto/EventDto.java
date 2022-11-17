@@ -46,7 +46,7 @@ public class EventDto {
 
     private Location location;
 
-    private int views;
+    private long views;
 
     private int confirmedRequests;
 

@@ -30,7 +30,7 @@ public class EventShortDto {
 
     private Boolean paid;
 
-    private int views;
+    private long views;
 
     private int confirmedRequests;
 }

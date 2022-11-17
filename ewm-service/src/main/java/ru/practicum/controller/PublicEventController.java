@@ -13,6 +13,7 @@ import ru.practicum.service.EventService;
 import ru.practicum.service.RequestService;
 import ru.practicum.stats.StatsService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
@@ -54,7 +55,8 @@ public class PublicEventController {
                                           @RequestParam(required = false) Boolean onlyAvailable,
                                           @RequestParam(required = false) EventSort sort,
                                           @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
-                                          @Positive @RequestParam(defaultValue = "10") Integer size) {
+                                          @Positive @RequestParam(defaultValue = "10") Integer size,
+                                          HttpServletRequest request) {
         log.info("Controller: find all events with text={}, paid={}, rangeStar={}, rangeEnd={}, " +
                         "onlyAvailable={}, sort={}, from={}, siz={}, compilations: {}", text, categories, paid, rangeStart,
                 rangeEnd, onlyAvailable, sort, from, size);
@@ -75,8 +77,11 @@ public class PublicEventController {
         for (Event e : events) {
             EventShortDto eventShortDto = toEventShortDto(e);
             eventShortDto.setConfirmedRequests(requestService.getAmountConfirms(e.getId()));
+            Long views = statsService.getViews("/events/" + eventShortDto.getId());
+            eventShortDto.setViews(views);
             eventShortDtos.add(eventShortDto);
         }
+        statsService.setHits(request.getRequestURI(), request.getRemoteAddr());
         log.info("Controller: return all events: {}", eventShortDtos);
         return eventShortDtos;
     }
